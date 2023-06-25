@@ -1,72 +1,73 @@
 Private Sub CommandButton1_Click()
-'Aqui é só definindo os bagui
+    Dim codigoProduto As String
+    Dim nomeVendedor As String
+    Dim ws As Worksheet
+    Dim lastRow As Long
+    Dim cel As Range
+    Dim produtoEncontrado As Boolean
+    Dim vendedorEncontrado As Boolean
+    
+    codigoProduto = Produto.Text
+    nomeVendedor = Vendedor.Text
+    
 
-Dim codigoProduto As String
-Dim nomeVendedor As String
-Dim ws As Worksheet
-Dim lastRow As Long
-Dim cel As Range
-Dim produtoEncontrado As Boolean
-Dim vendedorEncontrado As Boolean
-
-'Aqui faz com que a variável seja igual a caixa de texto do formulário
-codigoProduto = Produto.Text
-nomeVendedor = Vendedor.Text
-
-'Aqui delimita o código do produto para que tenha no máximo 4 números, pq eu lembrei q a ysadora me falou que tinha que ter algum requisito no preenchimento (ela deu exemplo de cpf ter que ter tantos números os pontos e o traço)
-If Not IsNumeric(codigoProduto) Or Len(codigoProduto) <> 4 Then
-MsgBox "O código de produto deve conter 4 dígitos numéricos.", vbExclamation, "Erro de validação"
-Exit Sub
-End If
-
-'Isso o chat gpt falou que ia resolver o erro que tava dando antes e resolveu mesmo
-On Error Resume Next
-Set ws = ThisWorkbook.Sheets("Aux")
-On Error GoTo 0
-
-'Aqui ele fala se não achar
-If ws Is Nothing Then
-MsgBox "A planilha auxiliar 'Aux' não foi encontrada.", vbExclamation, "Erro de validação"
-Exit Sub
-End If
-
-' Verificar se o número do produto está presente na lista de validação
-produtoEncontrado = False
-For Each cel In ws.Range("D:D")
-If cel.Value = codigoProduto Then
-produtoEncontrado = True
-Exit For
-End If
-Next cel
-
-If Not produtoEncontrado Then
-MsgBox "O número do produto digitado não consta na lista de validação.", vbExclamation, "Erro de validação"
-Exit Sub
-End If
-
-'Mesma coisa pro vendedor
-vendedorEncontrado = False
-For Each cel In ws.Range("E:E")
-If cel.Value = nomeVendedor Then
-vendedorEncontrado = True
-Exit For
-End If
-Next cel
-
-If Not vendedorEncontrado Then
-MsgBox "O nome do vendedor digitado não consta na lista de validação.", vbExclamation, "Erro de validação"
-Exit Sub
-End If
-
-'Aqui é onde ele busca a ultima linha da coluna que escolher pra adicionar os dados
-lastRow = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
-
-ws.Cells(lastRow + 1, "A").Value = codigoProduto
-ws.Cells(lastRow + 1, "B").Value = nomeVendedor
-
-MsgBox "Cadastro realizado com sucesso!", vbInformation, "Sucesso"
-
-'Pra zerar o valor
-Produto.Text = ""
-Vendedor.Text = ""
+    
+    On Error Resume Next
+    Set ws = ThisWorkbook.Sheets("Cadastros")
+    On Error GoTo 0
+    
+    If ws Is Nothing Then
+        MsgBox "A planilha auxiliar 'NomeDaPlanilhaAuxiliar' não foi encontrada.", vbExclamation, "Erro de validação"
+        Exit Sub
+    End If
+    
+    'Verificar se o número do produto está presente na lista de validação
+    'produtoEncontrado = False
+    'For Each cel In ws.Range("C:C")
+    '    If cel.Value = codigoProduto Then
+     '       produtoEncontrado = True
+      '      Exit For
+       ' End If
+    'Next cel
+    
+    'If Not produtoEncontrado Then
+     '   MsgBox "O número do produto digitado não consta na lista de validação.", vbExclamation, "Erro de validação"
+      '  Exit Sub
+    'End If
+    
+    'vendedorEncontrado = False
+    'For Each cel In ws.Range("A:A")
+     '   If cel.Value = nomeVendedor Then
+      '      vendedorEncontrado = True
+       '     Exit For
+       ' End If
+    'Next cel
+    
+    'If Not vendedorEncontrado Then
+     '   MsgBox "O nome do vendedor digitado não consta na lista de validação.", vbExclamation, "Erro de validação"
+       ' Exit Sub
+    'End If
+    
+    lastRow1 = ws.Cells(ws.Rows.Count, "A").End(xlUp).Row
+    lastRow2 = ws.Cells(ws.Rows.Count, "B").End(xlUp).Row
+    
+    ws.Cells(lastRow2 + 1, "B").Value = codigoProduto
+    ws.Cells(lastRow1 + 1, "A").Value = nomeVendedor
+    
+    MsgBox "Cadastro realizado com sucesso!", vbInformation, "Sucesso"
+ 
+    Produto.Text = ""
+    Vendedor.Text = ""
+End Sub
+ 
+Private Sub Label1_Click()
+ 
+End Sub
+ 
+Private Sub Produto_Change()
+ 
+End Sub
+ 
+Private Sub UserForm_Click()
+ 
 End Sub
